@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>قسمة | أوردرات الشغل</title>
+<meta name="description" content="قسمة — افتح أوردر جماعي من مطعم، ابعت اللينك لصحابك في الشغل، كل واحد يطلب باسمه، والتجميعة تحسب كل واحد عليه كام.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF5EC; --card:#FFFFFF; --ink:#1B140D; --ink2:#7A6E5F; --hairline:#EDE3D2;
+  --accent:#F24E1E; --accent-soft:#FDEBE3; --green:#0E7A4A; --green-soft:#E4F4EC;
+  --radius:18px; --shadow:0 1px 2px rgba(27,20,13,.05), 0 8px 24px rgba(27,20,13,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font-family:'Tajawal',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea,select{font-family:inherit;font-size:inherit;color:inherit}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 90px}
+/* ---------- header ---------- */
+.app-head{padding:26px 0 6px;display:flex;align-items:center;gap:12px}
+.logo{width:52px;height:52px;border-radius:16px;background:var(--ink);display:grid;place-items:center;flex:0 0 auto}
+.logo span{font-weight:900;font-size:22px;color:var(--bg);transform:translateY(-1px)}
+.app-head h1{font-size:26px;font-weight:900;letter-spacing:-.5px}
+.app-head .tag{color:var(--ink2);font-size:13.5px;font-weight:500;margin-top:-4px}
+/* ---------- generic ---------- */
+.section-title{font-size:19px;font-weight:800;margin:26px 0 12px;display:flex;align-items:center;gap:8px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--hairline)}
+.card{background:var(--card);border:1px solid var(--hairline);border-radius:var(--radius);box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:800;border-radius:14px;padding:13px 20px;font-size:15px;transition:transform .12s ease, box-shadow .12s ease;user-select:none}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(242,78,30,.28)}
+.btn-dark{background:var(--ink);color:var(--bg)}
+.btn-ghost{background:var(--card);border:1px solid var(--hairline);color:var(--ink)}
+.btn-block{width:100%}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;padding:4px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.chip.green{background:var(--green-soft);color:var(--green)}
+.chip.gray{background:#F1ECE3;color:var(--ink2)}
+.muted{color:var(--ink2);font-size:13.5px}
+/* ---------- restaurant cards ---------- */
+.rest-card{padding:18px;margin-bottom:12px;display:flex;align-items:center;gap:14px}
+.rest-badge{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;font-size:26px;flex:0 0 auto;background:var(--accent-soft)}
+.rest-info{flex:1;min-width:0}
+.rest-info h3{font-size:17px;font-weight:800}
+.rest-info p{color:var(--ink2);font-size:13px;margin-top:1px}
+.rest-card .btn{padding:10px 16px;font-size:14px}
+.demo-note{font-size:12px;color:var(--ink2);background:#F6F0E4;border:1px dashed #E2D5BE;border-radius:12px;padding:10px 14px;margin-top:4px}
+/* ---------- order list ---------- */
+.order-row{padding:14px 18px;margin-bottom:10px;display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+.order-row .code{font-weight:900;font-size:15px;letter-spacing:1px}
+.order-row .meta{flex:1;min-width:0}
+.order-row .meta .r{font-weight:800;font-size:14.5px}
+.order-row .meta .t{color:var(--ink2);font-size:12px}
+/* ---------- order page ---------- */
+.order-hero{padding:18px;margin-top:8px}
+.order-hero .rest{font-size:20px;font-weight:900}
+.order-hero .code-row{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.code-pill{background:var(--ink);color:var(--bg);font-weight:900;font-size:17px;letter-spacing:3px;padding:8px 16px;border-radius:12px;direction:ltr}
+.icon-btn{width:40px;height:40px;border-radius:12px;background:var(--card);border:1px solid var(--hairline);display:inline-grid;place-items:center;font-size:16px}
+.name-row{display:flex;gap:10px;margin-top:14px}
+.name-row input{flex:1;border:1.5px solid var(--hairline);border-radius:13px;padding:12px 14px;font-size:15px;font-weight:700;background:#FFFDF8;outline:none}
+.name-row input:focus{border-color:var(--accent)}
+/* ---------- menu ---------- */
+.cat-title{font-size:16px;font-weight:800;margin:22px 0 10px;color:var(--ink)}
+.item{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;margin-bottom:8px}
+.item .info{flex:1;min-width:0}
+.item .info h4{font-size:15px;font-weight:800}
+.item .info .desc{color:var(--ink2);font-size:12.5px;margin-top:1px}
+.item .price{font-weight:900;font-size:14.5px;white-space:nowrap;margin-top:1px}
+.stepper{display:flex;align-items:center;gap:2px;background:#F6F0E4;border-radius:11px;padding:3px}
+.stepper button{width:30px;height:30px;border-radius:9px;font-size:17px;font-weight:800;display:grid;place-items:center;background:transparent}
+.stepper button.on{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.stepper .qty{min-width:22px;text-align:center;font-weight:900;font-size:14.5px}
+.item-note{width:100%;border:1px solid var(--hairline);border-radius:10px;padding:7px 11px;font-size:12.5px;margin-top:8px;background:#FFFDF8;outline:none}
+/* ---------- sticky bar ---------- */
+.sticky-bar{position:fixed;bottom:0;right:0;left:0;background:rgba(250,245,236,.92);backdrop-filter:blur(10px);border-top:1px solid var(--hairline);padding:12px 16px calc(12px + env(safe-area-inset-bottom));z-index:20}
+.sticky-inner{max-width:560px;margin:0 auto;display:flex;gap:10px}
+.sticky-inner .btn{flex:1;padding:14px}
+.sticky-inner .sum{background:var(--card);border:1px solid var(--hairline);border-radius:14px;padding:8px 16px;display:flex;flex-direction:column;justify-content:center;min-width:96px;text-align:center}
+.sticky-inner .sum b{font-size:16px}
+.sticky-inner .sum span{font-size:11px;color:var(--ink2)}
+/* ---------- people / consolidation ---------- */
+.person{padding:14px 18px;margin-bottom:10px}
+.person .p-head{display:flex;align-items:center;gap:10px}
+.person .p-name{font-weight:900;font-size:15.5px;flex:1}
+.person .p-total{font-weight:900;font-size:15px}
+.paid-toggle{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;padding:5px 12px;border-radius:999px;border:1.5px solid var(--hairline);background:var(--card);color:var(--ink2)}
+.paid-toggle.paid{background:var(--green-soft);border-color:#BFE3D0;color:var(--green)}
+.person .lines{margin-top:10px;border-top:1px dashed var(--hairline);padding-top:8px}
+.person .line{display:flex;justify-content:space-between;font-size:13.5px;padding:2px 0;color:#4A4136}
+.person .line .n{color:var(--ink2);font-size:12px}
+.fee-line{display:flex;justify-content:space-between;font-size:13px;color:var(--ink2);padding:2px 0}
+.grand{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;margin-top:14px;background:var(--ink);color:var(--bg);border-radius:var(--radius)}
+.grand b{font-size:19px}
+.grand span{font-size:13px;opacity:.75}
+.agg-item{display:flex;justify-content:space-between;align-items:baseline;padding:10px 18px;border-bottom:1px solid var(--hairline);font-size:14.5px}
+.agg-item:last-child{border-bottom:none}
+.agg-item .who{color:var(--ink2);font-size:12px;display:block}
+.agg-item .q{font-weight:900}
+.agg-card{margin-bottom:10px;overflow:hidden}
+/* ---------- toast ---------- */
+#toast{position:fixed;bottom:92px;right:50%;transform:translateX(50%) translateY(20px);background:var(--ink);color:var(--bg);font-weight:700;font-size:14px;padding:11px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:all .25s ease;z-index:50;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(50%) translateY(0)}
+.empty{padding:34px 20px;text-align:center;color:var(--ink2);font-size:14px}
+.spin{display:inline-block;width:18px;height:18px;border:2.5px solid var(--hairline);border-top-color:var(--accent);border-radius:50%;animation:sp 1s linear infinite;vertical-align:-4px}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (min-width:560px){.app-head{padding-top:36px}}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div id="toast"></div>
+
+<script>
+/* ================= المطاعم =================
+   لما تبعت منيو حقيقي، المطعم بيتحط هنا */
+const RESTAURANTS = [
+  {
+    id: 'demo',
+    name: 'مطعم تجريبي',
+    emoji: '🍔',
+    desc: 'منيو مؤقت للتجربة',
+    deliveryFee: 10,
+    categories: [
+      { name: 'ساندوتشات', items: [
+        { id: 'd1', name: 'تشيكن كلاسيك', price: 85, desc: 'فراخ مقرمشة + صوص خاص + مخلل' },
+        { id: 'd2', name: 'بيف سموكد', price: 120, desc: 'لحم بقري مدخن + جبنة شيدر' },
+        { id: 'd3', name: 'مشروم سويس', price: 110, desc: 'مشروم سوتيه + جبنة سويسرية' },
+      ]},
+      { name: 'وجبات', items: [
+        { id: 'd4', name: 'وجبة فراخ مشوية', price: 150, desc: 'نص فرخة + أرز + سلطة' },
+        { id: 'd5', name: 'وجبة كفتة', price: 165, desc: 'كفتة بلدي + أرز + عيش' },
+      ]},
+      { name: 'إضافات', items: [
+        { id: 'd6', name: 'بطاطس', price: 35, desc: '' },
+        { id: 'd7', name: 'سلطة خضرا', price: 25, desc: '' },
+        { id: 'd8', name: 'مشروب غازي', price: 20, desc: '' },
+      ]},
+    ]
+  }
+];
+const restById = id => RESTAURANTS.find(r => r.id === id);
+
+/* ================= API ================= */
+const api = async (payload) => {
+  const res = await fetch('/api/order', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  if (!res.ok) throw new Error('api ' + res.status);
+  return res.json();
+};
+const apiGet = async (id) => {
+  const res = await fetch('/api/order?id=' + encodeURIComponent(id));
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error('api ' + res.status);
+  return res.json();
+};
+
+/* ================= state ================= */
+const app = document.getElementById('app');
+const fmt = n => (Math.round(n * 100) / 100).toLocaleString('ar-EG') + ' ج';
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const myName = () => (localStorage.getItem('qisma-name') || '').trim();
+let pollTimer = null;
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._h);
+  t._h = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ================= home ================= */
+async function renderHome() {
+  stopPoll();
+  app.innerHTML = `
+    <div class="app-head">
+      <div class="logo"><span>ق</span></div>
+      <div>
+        <h1>قسمة</h1>
+        <div class="tag">أوردرات الشغل، متقسمة صح</div>
+      </div>
+    </div>
+    <div class="section-title">المطاعم</div>
+    ${RESTAURANTS.map(r => `
+      <div class="card rest-card">
+        <div class="rest-badge">${r.emoji}</div>
+        <div class="rest-info">
+          <h3>${esc(r.name)}</h3>
+          <p>${esc(r.desc)}${r.deliveryFee ? ' · توصيل ' + fmt(r.deliveryFee) : ''}</p>
+        </div>
+        <button class="btn btn-primary" data-open="${r.id}">افتح أوردر</button>
+      </div>`).join('')}
+    <div class="demo-note">المنيو ده مؤقت للتجربة — أول ما تبعت منيوهات المطاعم الحقيقية هتتحط هنا.</div>
+    <div class="section-title">أوردرات مفتوحة</div>
+    <div id="recent"><div class="empty"><span class="spin"></span></div></div>`;
+
+  app.querySelectorAll('[data-open]').forEach(b => b.onclick = async () => {
+    b.disabled = true;
+    b.innerHTML = '<span class="spin"></span>';
+    try {
+      const { id } = await api({ action: 'create', restaurantId: b.dataset.open });
+      location.hash = '#/o/' + id;
+    } catch (e) { toast('حصلت مشكلة، جرب تاني'); b.disabled = false; b.textContent = 'افتح أوردر'; }
+  });
+
+  try {
+    const { orders } = await api({ action: 'list' });
+    const el = document.getElementById('recent');
+    if (!orders.length) { el.innerHTML = '<div class="empty">لسه مفيش أوردرات — افتح أول واحد ☝️</div>'; return; }
+    el.innerHTML = orders.map(o => {
+      const r = restById(o.restaurantId);
+      const n = Object.keys(o.people || {}).length;
+      return `<a class="card order-row" href="#/o/${o.id}">
+        <span class="code-pill" style="font-size:13px;padding:6px 12px">${o.id}</span>
+        <span class="meta">
+          <div class="r">${esc(r ? r.name : o.restaurantId)}</div>
+          <div class="t">${n ? n + ' بيطلبوا' : 'لسه محدش طلب'} · ${new Date(o.createdAt).toLocaleString('ar-EG', {day:'numeric', month:'short', hour:'numeric', minute:'2-digit'})}</div>
+        </span>
+        <span class="chip ${o.status === 'open' ? 'green' : 'gray'}">${o.status === 'open' ? 'مفتوح' : 'اتقفل'}</span>
+      </a>`;
+    }).join('');
+  } catch (e) {
+    document.getElementById('recent').innerHTML = '<div class="empty">مش قادر يجيب الأوردرات دلوقتي</div>';
+  }
+}
+
+/* ================= order page ================= */
+let cart = {};   /* itemId -> {qty, note} */
+let curOrder = null;
+
+function stopPoll() { if (pollTimer) { clearInterval(pollTimer); pollTimer = null; } }
+
+async function renderOrder(id) {
+  stopPoll();
+  id = (id || '').toUpperCase();
+  app.innerHTML = '<div class="empty" style="padding-top:80px"><span class="spin"></span></div>';
+  let order;
+  try { order = await apiGet(id); } catch (e) { order = null; }
+  if (!order) {
+    app.innerHTML = `<div class="empty" style="padding-top:80px">الأوردر ده مش موجود 🤔<br><br><a class="btn btn-dark" href="#/" style="text-decoration:none">ارجع للرئيسية</a></div>`;
+    return;
+  }
+  curOrder = order;
+  const r = restById(order.restaurantId) || { name: order.restaurantId, emoji: '🍽️', deliveryFee: 0, categories: [] };
+
+  /* preload my saved items into the cart */
+  cart = {};
+  const mine = order.people && order.people[myName()];
+  if (mine) mine.items.forEach(it => { cart[it.itemId] = { qty: it.qty, note: it.note || '' }; });
+
+  app.innerHTML = `
+    <div class="order-hero card">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div class="rest-badge">${r.emoji}</div>
+        <div style="flex:1">
+          <div class="rest">${esc(r.name)}</div>
+          <div class="muted">أوردر جماعي · ${order.status === 'open' ? 'مفتوح للطلب' : 'اتقفل'}</div>
+        </div>
+        <span class="chip ${order.status === 'open' ? 'green' : 'gray'}">${order.status === 'open' ? 'مفتوح' : 'مقفول'}</span>
+      </div>
+      <div class="code-row">
+        <span class="code-pill">${order.id}</span>
+        <button class="icon-btn" id="copy-link" title="انسخ اللينك">🔗</button>
+        <a class="icon-btn" id="wa-share" title="ابعته واتساب" target="_blank" rel="noopener">📲</a>
+      </div>
+      <div class="name-row">
+        <input id="my-name" placeholder="اسمك الأول" maxlength="30" value="${esc(myName())}">
+        <button class="btn btn-dark" id="save-name" style="padding:12px 18px">تمام</button>
+      </div>
+    </div>
+
+    <div class="section-title">المنيو</div>
+    <div id="menu">
+      ${r.categories.map(c => `
+        <div class="cat-title">${esc(c.name)}</div>
+        ${c.items.map(it => `
+          <div class="card item" data-item="${it.id}">
+            <div class="info">
+              <h4>${esc(it.name)}</h4>
+              ${it.desc ? `<div class="desc">${esc(it.desc)}</div>` : ''}
+              <input class="item-note" placeholder="ملاحظة (بدون بصل…)" maxlength="80" style="display:none">
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+              <span class="price">${fmt(it.price)}</span>
+              <div class="stepper">
+                <button data-plus>+</button>
+                <span class="qty">0</span>
+                <button data-minus>−</button>
+              </div>
+            </div>
+          </div>`).join('')}`).join('')}
+    </div>
+
+    <div class="section-title">التجميعة 🧾</div>
+    <div id="people"></div>
+    <div class="section-title">الأوردر كامل للمطعم</div>
+    <div id="agg"></div>
+    <div id="grand"></div>
+    <div style="margin-top:18px;display:flex;gap:10px">
+      <button class="btn btn-ghost btn-block" id="toggle-status">${order.status === 'open' ? '🔒 اقفل الأوردر' : '🔓 افتحه تاني'}</button>
+      <a class="btn btn-ghost" href="#/" style="text-decoration:none;padding:13px 16px">🏠</a>
+    </div>
+    <div style="height:90px"></div>
+
+    <div class="sticky-bar">
+      <div class="sticky-inner">
+        <div class="sum"><b id="my-total">0 ج</b><span>طلبي</span></div>
+        <button class="btn btn-primary" id="save-order">احفظ طلبي</button>
+      </div>
+    </div>`;
+
+  /* share links */
+  const shareUrl = location.origin + location.pathname + '#/o/' + order.id;
+  const waText = encodeURIComponent(`أوردر جماعي من ${r.name} 🍔\nادخل اختار أكلتك بنفسك من اللينك ده:\n${shareUrl}`);
+  document.getElementById('wa-share').href = 'https://wa.me/?text=' + waText;
+  document.getElementById('copy-link').onclick = async () => {
+    try { await navigator.clipboard.writeText(shareUrl); toast('اللينك اتنسخ ✅'); }
+    catch (e) { toast(shareUrl); }
+  };
+
+  /* name */
+  const nameInput = document.getElementById('my-name');
+  document.getElementById('save-name').onclick = () => {
+    const v = nameInput.value.trim();
+    if (!v) { toast('اكتب اسمك الأول'); return; }
+    localStorage.setItem('qisma-name', v);
+    toast('تمام يا ' + v + ' 👋');
+    refreshLive();
+  };
+
+  /* steppers */
+  app.querySelectorAll('[data-item]').forEach(card => {
+    const itemId = card.dataset.item;
+    const qtyEl = card.querySelector('.qty');
+    const noteEl = card.querySelector('.item-note');
+    const [plus, minus] = [card.querySelector('[data-plus]'), card.querySelector('[data-minus]')];
+    const sync = () => {
+      const c = cart[itemId];
+      const q = c ? c.qty : 0;
+      qtyEl.textContent = q;
+      plus.classList.toggle('on', true);
+      minus.classList.toggle('on', q > 0);
+      noteEl.style.display = q > 0 ? '' : 'none';
+      if (c) noteEl.value = c.note;
+      myTotal();
+    };
+    plus.onclick = () => { cart[itemId] = cart[itemId] || { qty: 0, note: '' }; cart[itemId].qty++; sync(); };
+    minus.onclick = () => {
+      if (!cart[itemId]) return;
+      cart[itemId].qty--;
+      if (cart[itemId].qty <= 0) delete cart[itemId];
+      sync();
+    };
+    noteEl.oninput = () => { if (cart[itemId]) cart[itemId].note = noteEl.value; };
+    sync();
+  });
+
+  const itemsIndex = {};
+  r.categories.forEach(c => c.items.forEach(it => itemsIndex[it.id] = it));
+  function myTotal() {
+    const t = Object.entries(cart).reduce((s, [id, c]) => s + itemsIndex[id].price * c.qty, 0);
+    document.getElementById('my-total').textContent = fmt(t);
+  }
+
+  /* save my order */
+  document.getElementById('save-order').onclick = async () => {
+    const name = myName();
+    if (!name) { toast('اكتب اسمك الأول من فوق 👆'); nameInput.focus(); return; }
+    const items = Object.entries(cart).map(([itemId, c]) => ({
+      itemId, name: itemsIndex[itemId].name, price: itemsIndex[itemId].price, qty: c.qty, note: c.note.trim()
+    }));
+    const btn = document.getElementById('save-order');
+    btn.disabled = true; btn.innerHTML = '<span class="spin"></span>';
+    try {
+      await api({ action: 'setItems', id: order.id, name, items });
+      toast('طلبك اتحفظ ✅');
+      refreshLive();
+    } catch (e) { toast('حصلت مشكلة، جرب تاني'); }
+    btn.disabled = false; btn.textContent = 'احفظ طلبي';
+  };
+
+  /* close / reopen */
+  document.getElementById('toggle-status').onclick = async () => {
+    const ns = curOrder.status === 'open' ? 'closed' : 'open';
+    try {
+      await api({ action: 'status', id: order.id, status: ns });
+      curOrder.status = ns;
+      toast(ns === 'closed' ? 'الأوردر اتقفل 🔒' : 'الأوردر اتفتح تاني 🔓');
+      renderOrder(order.id);
+    } catch (e) { toast('حصلت مشكلة، جرب تاني'); }
+  };
+
+  /* live consolidation */
+  async function refreshLive() {
+    let fresh;
+    try { fresh = await apiGet(order.id); } catch (e) { return; }
+    if (!fresh) return;
+    curOrder = fresh;
+    drawPeople(fresh, r);
+  }
+  pollTimer = setInterval(refreshLive, 4000);
+  refreshLive();
+}
+
+function drawPeople(order, r) {
+  const people = Object.entries(order.people || {}).filter(([, p]) => p.items && p.items.length);
+  const peopleEl = document.getElementById('people');
+  const aggEl = document.getElementById('agg');
+  const grandEl = document.getElementById('grand');
+
+  if (!people.length) {
+    peopleEl.innerHTML = '<div class="empty">لسه محدش حفظ طلبه — ابدأوا 👇</div>';
+    aggEl.innerHTML = '';
+    grandEl.innerHTML = '';
+    return;
+  }
+
+  const fee = r.deliveryFee || 0;
+  const split = fee / people.length;
+  let grand = fee;
+
+  peopleEl.innerHTML = people.map(([name, p]) => {
+    const sub = p.items.reduce((s, it) => s + it.price * it.qty, 0);
+    grand += sub;
+    return `<div class="card person">
+      <div class="p-head">
+        <span class="p-name">${esc(name)}</span>
+        <button class="paid-toggle ${p.paid ? 'paid' : ''}" data-paid="${esc(name)}" data-v="${p.paid ? 0 : 1}">${p.paid ? '✓ دفع' : 'لسه مدفعش'}</button>
+        <span class="p-total">${fmt(sub + split)}</span>
+      </div>
+      <div class="lines">
+        ${p.items.map(it => `<div class="line"><span>${esc(it.name)} ×${it.qty}${it.note ? ` <span class="n">(${esc(it.note)})</span>` : ''}</span><span>${fmt(it.price * it.qty)}</span></div>`).join('')}
+        ${fee ? `<div class="fee-line"><span>قسمة التوصيل</span><span>${fmt(split)}</span></div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+
+  peopleEl.querySelectorAll('[data-paid]').forEach(b => b.onclick = async () => {
+    try {
+      await api({ action: 'paid', id: order.id, name: b.dataset.paid, paid: b.dataset.v === '1' });
+      toast(b.dataset.v === '1' ? 'اتعلم إنه دفع ✅' : 'رجع لسه مدفعش');
+      const fresh = await apiGet(order.id);
+      if (fresh) { curOrder = fresh; drawPeople(fresh, r); }
+    } catch (e) { toast('حصلت مشكلة، جرب تاني'); }
+  });
+
+  /* aggregate for the restaurant */
+  const agg = {};
+  people.forEach(([name, p]) => p.items.forEach(it => {
+    agg[it.name] = agg[it.name] || { qty: 0, who: [] };
+    agg[it.name].qty += it.qty;
+    agg[it.name].who.push(name + (it.note ? ` (${it.note})` : ''));
+  }));
+  aggEl.innerHTML = `<div class="card agg-card">${Object.entries(agg).map(([name, a]) =>
+    `<div class="agg-item"><span>${esc(name)}<span class="who">${esc(a.who.join('، '))}</span></span><span class="q">×${a.qty}</span></div>`
+  ).join('')}</div>`;
+
+  grandEl.innerHTML = `<div class="grand"><span>الإجمالي${fee ? ' (شامل توصيل ' + fmt(fee) + ')' : ''}</span><b>${fmt(grand)}</b></div>`;
+}
+
+/* ================= router ================= */
+function route() {
+  const h = location.hash;
+  const m = h.match(/^#\/o\/([A-Z0-9]+)/i);
+  if (m) renderOrder(m[1]);
+  else renderHome();
+}
+window.addEventListener('hashchange', route);
+route();
+</script>
+</body>
+</html>
