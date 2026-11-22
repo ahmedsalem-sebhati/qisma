@@ -1094,8 +1094,9 @@ async function renderHome() {
   try {
     const { orders } = await api({ action: 'list' });
     const el = document.getElementById('recent');
-    if (!orders.length) { el.innerHTML = '<div class="empty">لسه مفيش أوردرات — افتح أول واحد ☝️</div>'; return; }
-    el.innerHTML = orders.map(o => {
+    const open = orders.filter(o => o.status === 'open');
+    if (!open.length) { el.innerHTML = '<div class="empty">لسه مفيش أوردرات مفتوحة — افتح أول واحد ☝️</div>'; return; }
+    el.innerHTML = open.map(o => {
       const r = restById(o.restaurantId);
       const n = Object.keys(o.people || {}).length;
       return `<a class="card order-row" href="#/o/${o.id}">
@@ -1159,6 +1160,7 @@ async function renderOrder(id) {
 
     <div class="section-title">المنيو</div>
     <div id="menu">
+      ${r.categories.length === 0 ? '<div class="empty">المنيو مش ظاهرة عندك — <a href="" style="color:inherit;text-decoration:underline">حدّث الصفحة 🔄</a></div>' : ''}
       ${r.categories.map(c => `
         <div class="cat-title">${esc(c.name)}</div>
         ${c.items.map(it => `
@@ -1216,6 +1218,10 @@ async function renderOrder(id) {
     refreshLive();
   };
 
+  const itemsIndex = {};
+  r.categories.forEach(c => c.items.forEach(it => itemsIndex[it.id] = it));
+  Object.keys(cart).forEach(id => { if (!itemsIndex[id]) delete cart[id]; });
+
   /* steppers */
   app.querySelectorAll('[data-item]').forEach(card => {
     const itemId = card.dataset.item;
@@ -1243,10 +1249,8 @@ async function renderOrder(id) {
     sync();
   });
 
-  const itemsIndex = {};
-  r.categories.forEach(c => c.items.forEach(it => itemsIndex[it.id] = it));
   function myTotal() {
-    const t = Object.entries(cart).reduce((s, [id, c]) => s + itemsIndex[id].price * c.qty, 0);
+    const t = Object.entries(cart).reduce((s, [id, c]) => s + (itemsIndex[id] ? itemsIndex[id].price * c.qty : 0), 0);
     document.getElementById('my-total').textContent = fmt(t);
   }
 
@@ -1254,7 +1258,7 @@ async function renderOrder(id) {
   document.getElementById('save-order').onclick = async () => {
     const name = myName();
     if (!name) { toast('اكتب اسمك الأول من فوق 👆'); nameInput.focus(); return; }
-    const items = Object.entries(cart).map(([itemId, c]) => ({
+    const items = Object.entries(cart).filter(([itemId]) => itemsIndex[itemId]).map(([itemId, c]) => ({
       itemId, name: itemsIndex[itemId].name, price: itemsIndex[itemId].price, qty: c.qty, note: c.note.trim()
     }));
     const btn = document.getElementById('save-order');
